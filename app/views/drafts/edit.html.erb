@@ -1,0 +1,19 @@
+<% content_for :header_title do %>
+  <h2><%= titleize_form_name(@current_form) %></h2>
+<% end %>
+
+<% if @unsupported_version %>
+  <%= render partial: 'drafts/shared/unsupported_version' %>
+<% elsif @unconfirmed_version %>
+  <%= render partial: 'drafts/shared/unconfirmed_version' %>
+<% else %>
+  <div class="row row-content">
+    <section>
+      <%= form_tag(send("#{resource_name}_path", get_resource), method: :put, id: 'umm_form', class: "umm-form #{published_resource_name}-form", novalidate: 'novalidate') do %>
+        <%= render partial: 'form', locals: { resource: get_resource, json_form: @json_form, current_form: @current_form } %>
+      <% end %>
+    </section>
+  </div>
+
+  <%= render partial: 'drafts/shared/javascript', locals: { current_form: @current_form } %>
+<% end %>
